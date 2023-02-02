@@ -59,7 +59,7 @@ class BotManController extends Controller
                 'chat_id' => $bot->getUser()->getId(),
                 'card_id' => $card->id,
             ]);*/
-            $attachment = new Image(env('APP_URL')."/files1/images/{$card->filename}");
+            $attachment = new Image(env('APP_URL')."/files/images/{$card->filename}");
 
             // Build message object
             $message = OutgoingMessage::create('This is my text')
