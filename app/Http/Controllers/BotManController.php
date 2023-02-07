@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use BotMan\BotMan\BotMan;
+use Illuminate\Support\Facades\Config;
 use BotMan\BotMan\Messages\Attachments\Image;
 use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Conversations\ExampleConversation;
 use App\Card;
+use App\Chat;
 use App\CardRequest;
-
 
 class BotManController extends Controller
 {
@@ -22,6 +23,8 @@ class BotManController extends Controller
         $botman = app('botman');
         $botman->listen();
     }
+
+
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -38,6 +41,24 @@ class BotManController extends Controller
     public function startConversation(BotMan $bot)
     {
         $bot->startConversation(new ExampleConversation());
+    }
+
+    public function register($bot)
+    {
+        if ( Chat::where('telegram_id', $bot->getUser()->getId() )->exists() )
+            return;
+
+        Chat::create([
+            'telegram_id' => $bot->getUser()->getId(),
+            'telegram_firstname' => $bot->getUser()->getFirstName(),
+            'telegram_lastname' => $bot->getUser()->getLastName(),
+        ]);
+    }
+
+    public function start(BotMan $bot)
+    {
+        $this->register($bot);
+        $bot->reply("Вы успешно зарегистрированы!");
     }
 
     public function card(BotMan $bot)
@@ -59,14 +80,15 @@ class BotManController extends Controller
                 'chat_id' => $bot->getUser()->getId(),
                 'card_id' => $card->id,
             ]);*/
-            $attachment = new Image(env('APP_URL')."/files/images/{$card->filename}");
 
-            // Build message object
+
+            $attachment = new Image(config::get('app.url')."/files/images/{$card->filename}");
+
             $message = OutgoingMessage::create('This is my text')
                 ->withAttachment($attachment);
 
-            // Reply message object
             $bot->reply($message);
+            $bot->reply(config::get('app.url')."/files/images/{$card->filename}");
 
         }
         else

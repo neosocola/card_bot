@@ -2,7 +2,7 @@
 
 @section('content')
     <br />
-    <div class="alert alert-dark" role="alert">Всего карт в системе: <b>{{ $cards->total() }}</b>
+    <div class="alert alert-dark" role="alert">Всего карт в системе: <b id="total">{{ $cards->total() }}</b>
     </div>
     <p><a href="{{ route('cards.create') }}"><button type="button" class="btn btn-primary btn-lg">Добавить карту</button></a></p>
     @if (session('success'))
@@ -45,13 +45,15 @@
             if (confirm("Вы действительно хотите удалить карту?")) {
                 $.ajax({
                     type: 'DELETE',
-                    url: '/cards/{{ $card->id }}',
+                    url: '/cards/' + id,
                     data: {
                         _token: $('input[name="_token"]').val()
                     },
                     success: function (data) {
                         if (data.success) {
                             $("#card-" + id).remove();
+                            var total = $('#total');
+                            total.html(total.html()-1);
                         }
                     }
                 });
