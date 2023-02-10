@@ -19,8 +19,10 @@
             <small class="form-text text-muted">Доступные форматы: jpg, jpeg, png, gif</small>
         </div>
         <div class="mb-3">
+            <label class="form-label" for="description">Описание карты</label>
             <textarea class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" rows="10">{{ old('description') }}</textarea>
         </div>
+        <input type="hidden" name="page" value="{{ request()->input('page') }}">
         <input class="btn btn-primary btn-lg" type='submit' value='Добавить'>
     </form>
 @endsection

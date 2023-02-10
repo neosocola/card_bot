@@ -22,9 +22,10 @@ class CardController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
+        $validated = $request->validate([
             'filename' => 'required|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'description' => 'nullable',
+            'page' => 'nullable|numeric',
         ]);
 
         $image = $request->file('filename');
@@ -33,41 +34,27 @@ class CardController extends Controller
         //$card->storeAs('public/files/cards', $fileName);
         $card = new Card;
         $card->filename = $image_new_name;
-        $card->description = $request->input('description');
+        $card->description = $validated['description'];
         $card->save();
 
-        return redirect()->route('cards.index')->with('success', 'Карта успешно добавлена');
-    }
-
-    public function show($id)
-    {
-        $file = File::find($id);
-        return view('files.show', compact('file'));
+        return redirect()->route('cards.index', [ 'page' => $validated['page'] ])->with('success', 'Карта успешно добавлена');
     }
 
     public function edit($id)
     {
-        $file = File::find($id);
-        return view('files.edit', compact('file'));
+        $card = Card::find($id);
+        return view('cards.edit', compact('card'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Card $card)
     {
-        $request->validate([
-            'file' => 'required|file|max:1024',
+        $validated = $request->validate([
+            'description' => 'nullable',
+            'page' => 'nullable|numeric',
         ]);
-
-        $file = File::find($id);
-
-        $newFile = $request->file('file');
-        $newFileName = time().'.'.$newFile->extension();
-
-        $newFile->storeAs('public/files', $newFileName);
-
-        $file->file_name = $newFileName;
-        $file->save();
-
-        return redirect()->route('files.index')->with('success', 'File updated successfully');
+        $card->fill($validated);
+        $card->save();
+        return redirect()->route('cards.index', [ 'page' => $validated['page'] ]);
     }
 
     public function destroy(Request $request, int $id)
@@ -80,9 +67,9 @@ class CardController extends Controller
         }
         else
         {
-            $file = File::find($id);
-            $file->delete();
-            return redirect()->route('files.index')->with('success', 'File deleted successfully');
+            $card = Card::find($id);
+            $card->delete();
+            return redirect()->route('cards.index');
         }
     }
 }

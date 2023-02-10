@@ -64,12 +64,20 @@
         .bg-purple {
             background-color: #755d9a;
         }
+
+        .bi.bi-check-lg {
+            color: green;
+        }
+
+        .bi.bi-x-lg {
+            color: red;
+        }
     </style>
 </head>
 <body class="d-flex flex-column h-100">
 <nav class="navbar navbar-expand-lg navbar-dark bg-purple">
     <div class="container-fluid">
-        <a class="navbar-brand" href=""><i class="bi bi-telegram"></i> Telegram Bot</a>
+        <a class="navbar-brand" href="{{ route('index') }}"><i class="bi bi-telegram"></i> Telegram Bot</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -81,17 +89,30 @@
             <div class="offcanvas-body">
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('cards.index') }}">Карты</a>
+                        <a class="nav-link" href="{{ route('chats.index') }}"><i class="bi bi-people-fill"></i> Пользователи</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('commands.index') }}"><i class="bi bi-terminal"></i> Команды</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('cards.index') }}"><i class="bi bi-card-image"></i> Карты</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('cardrequests.index') }}"><i class="bi bi-images"></i> Запросы карт</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('settings.edit') }}"><i class="bi bi-gear"></i> Настройки</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                     <li class="nav-item">
-                        <a class="btn btn-success" href="">Сменить пароль</a>
+                        <a class="btn btn-success" href="{{ route('password.edit') }}"><i class="bi bi-key-fill"></i> Сменить пароль</a>
                     </li>
                 </ul>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <input type="submit" class="btn btn-primary my-2 my-sm-0" value="Выход">
+                        <a class="btn btn-danger" href="#" onclick="event.preventDefault();
+                                                this.closest('form').submit();"><i class="bi bi-box-arrow-right"></i> Выход</a>
                 </form>
             </div>
         </div>

@@ -4,7 +4,7 @@
     <br />
     <div class="alert alert-dark" role="alert">Всего карт в системе: <b id="total">{{ $cards->total() }}</b>
     </div>
-    <p><a href="{{ route('cards.create') }}"><button type="button" class="btn btn-primary btn-lg">Добавить карту</button></a></p>
+    <p><a href="{{ route('cards.create', ['page' => $cards->currentPage()] ) }}"><button type="button" class="btn btn-primary btn-lg">Добавить карту</button></a></p>
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -24,7 +24,7 @@
                     <tr id="card-{{ $card->id }}">
                         <td><img src="/files/images/{{ $card->filename }}" style="max-width: 100px"/></td>
                         <td>
-                                <a href=""><span class="badge bg-warning text-dark">Редактировать</span></a>
+                            <a href="{{ route('cards.edit', ['card' => $card, 'page' => $cards->currentPage()]) }}"><span class="badge bg-warning text-dark">Редактировать</span></a>
                             <a href="#" class="delete-card" data-id="{{ $card->id }}"><span class="badge bg-danger text-dark">Удалить</span></a>
 
                         </td>

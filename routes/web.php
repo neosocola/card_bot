@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/bot', function () {
     return view('welcome');
 });
 
@@ -21,6 +21,16 @@ Route::get('/botman/tinker', 'BotManController@tinker');
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::resource('cards', 'Admin\CardController');
+    Route::get('/', 'Admin\IndexController@index')->name('index');
+
+    Route::get('/password', 'Admin\PasswordController@edit')->name('password.edit');
+    Route::put('/password', 'Admin\PasswordController@update')->name('password.update');
+
+    Route::get('/settings', 'Admin\SettingController@edit')->name('settings.edit');
+    Route::put('/settings', 'Admin\SettingController@update')->name('settings.update');
+
+    Route::resource('chats', 'Admin\ChatController')->only('index', 'destroy');
+    Route::resource('cardrequests', 'Admin\CardRequestController')->only('index');
+    Route::resource('cards', 'Admin\CardController')->except('show');
+    Route::resource('commands', 'Admin\CommandController')->except('show');
 });
