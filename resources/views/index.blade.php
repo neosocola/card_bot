@@ -11,14 +11,15 @@
         </p>
     </div>
     <div class="row">
-        <div class="col-sm-4">
-            <div class="alert alert-success" role="alert">Последние 5 зарегистрированных пользователей
-            </div>
-            @if( count($chats) )
+        <div class="alert alert-success" role="alert">Последние 5 зарегистрированных пользователей
+        </div>
+        @if( count($chats) )
+            <div class="table-responsive">
                 <table class="table table-bordered table-hover">
                     <thead class="thead-light">
                     <tr>
                         <th scope="col">Имя</th>
+                        <th scope="col">Логин</th>
                         <th scope="col">Получил карт</th>
                         <th scope="col">Зарегистрирован</th>
                     </tr>
@@ -27,46 +28,48 @@
                     @foreach ( $chats as $chat )
                         <tr>
                             <td>{{ $chat->telegram_firstname }} {{ $chat->telegram_lastname }}</td>
-                            <td>@if ( isset($chat->cardrequest) ) {{ $chat->cardrequest->count() }} @else 0 @endif</td>
+                            <td>@if ( $chat->telegram_username)<a href="https://t.me/{{$chat->telegram_username}}" target="_blank">&commat;{{$chat->telegram_username}}</a>
+                            @else<a href="https://t.me/{{$chat->telegram_id}}" target="_blank">&commat;{{$chat->telegram_id}}</a>@endif</td>
+                            <td>{{ $chat->cards_requested }}</td>
                             <td>{{ $chat->created_at }}</td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-                <div class="alert alert-secondary" role="alert">Всего пользователей в системе: <a href="{{ route('chats.index') }}"><b>{{ $chats_total }}</b></a>
-                </div>
-            @else
-                <div class="text-center mb-4 alert alert-danger" role="alert">В системе ещё нет пользователей</div>
-            @endif
-        </div>
-        <div class="col-sm-8">
-            <div class="alert alert-primary" role="alert">Последние 5 запросов карт
             </div>
-            @if( count($CardRequests) )
-                <table class="table table-bordered table-hover">
-                    <thead class="thead-light">
-                    <tr>
-                        <th scope="col">Пользователь</th>
-                        <th>Карта</th>
-                        <th>Время запроса</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ( $CardRequests as $req )
-                        <tr>
-                            <td>{{ $req->chat->telegram_firstname }} {{ $req->chat->telegram_lastname }}</td>
-                            <td><img src="/files/images/{{ $req->card->filename }}" style="max-width: 100px"/></td>
-                            <td>
-                                {{ $req->created_at }}</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            @else
-                <div class="text-center mb-4 alert alert-danger" role="alert">Ещё не было запросов карт =(</div>
-            @endif
+            <div class="alert alert-secondary" role="alert">Всего пользователей в системе: <a href="{{ route('chats.index') }}"><b>{{ $chats_total }}</b></a>
+            </div>
+        @else
+            <div class="text-center mb-4 alert alert-danger" role="alert">В системе ещё нет пользователей</div>
+        @endif
+    </div>
+    <div class="row">
+        <div class="alert alert-primary" role="alert">Последние 5 запросов карт
         </div>
+        @if( count($CardRequests) )
+            <table class="table table-bordered table-hover">
+                <thead class="thead-light">
+                <tr>
+                    <th scope="col">Пользователь</th>
+                    <th>Карта</th>
+                    <th>Время запроса</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach ( $CardRequests as $req )
+                    <tr>
+                        <td>{{ $req->chat->telegram_firstname }} {{ $req->chat->telegram_lastname }}</td>
+                        <td><img src="/files/images/{{ $req->card->filename }}" style="max-width: 100px"/></td>
+                        <td>
+                            {{ $req->created_at }}</a>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        @else
+            <div class="text-center mb-4 alert alert-danger" role="alert">Ещё не было запросов карт =(</div>
+        @endif
     </div>
 
 

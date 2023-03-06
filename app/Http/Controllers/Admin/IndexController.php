@@ -11,7 +11,7 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $CardRequests = CardRequest::latest()->take(5)->get();
+        $CardRequests = CardRequest::with('chat', 'card')->latest()->take(5)->get();
         $chats = Chat::latest()->take(5)->get();
         $chats_total = Chat::count();
         return view('index', compact('CardRequests', 'chats', 'chats_total'));

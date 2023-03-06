@@ -3,7 +3,7 @@ use App\Http\Controllers\BotManController;
 use App\Http\Controllers\BotMan\StartController;
 use App\Http\Controllers\BotMan\CardController;
 use App\Http\Controllers\BotMan\CommandController;
-use App\Http\Controllers\BotMan\FallbackControllerController;
+use App\Http\Controllers\BotMan\FallbackController;
 use App\Http\Middleware\Botman\IsAuth;
 
 $botman = resolve('botman');

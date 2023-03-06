@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('chats', 'Admin\ChatController')->only('index', 'destroy');
     Route::resource('cardrequests', 'Admin\CardRequestController')->only('index');
+    Route::resource('logs', 'Admin\LogController')->only('index');
     Route::resource('cards', 'Admin\CardController')->except('show');
     Route::resource('commands', 'Admin\CommandController')->except('show');
 });

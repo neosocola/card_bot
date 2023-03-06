@@ -101,6 +101,9 @@
                         <a class="nav-link" href="{{ route('cardrequests.index') }}"><i class="bi bi-images"></i> Запросы карт</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ route('logs.index') }}"><i class="bi bi-terminal"></i> Действия пользователей</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ route('settings.edit') }}"><i class="bi bi-gear"></i> Настройки</a>
                     </li>
                 </ul>

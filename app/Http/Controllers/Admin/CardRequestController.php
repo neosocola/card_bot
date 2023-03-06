@@ -10,7 +10,7 @@ class CardRequestController extends Controller
 {
     public function index()
     {
-        $CardRequests = CardRequest::latest()->paginate(20);
+        $CardRequests = CardRequest::with('chat', 'card')->latest()->paginate(20);
         return view('cardrequests.index', compact('CardRequests'));
     }
 

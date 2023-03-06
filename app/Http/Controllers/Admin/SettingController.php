@@ -22,6 +22,7 @@ class SettingController extends Controller
         $validated = $request->validate([
             'start' => 'required|string',
             'fallback' => 'required|string',
+            'description' => 'required|string',
         ]);
 
         $settings = Setting::first();

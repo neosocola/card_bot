@@ -31,7 +31,6 @@ class CardController extends Controller
         $image = $request->file('filename');
         $image_new_name = rand() . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('files/images'), $image_new_name);
-        //$card->storeAs('public/files/cards', $fileName);
         $card = new Card;
         $card->filename = $image_new_name;
         $card->description = $validated['description'];

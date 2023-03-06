@@ -10,6 +10,7 @@
                 <thead class="thead-light">
                 <tr>
                     <th scope="col">Имя</th>
+                    <th>Логин</th>
                     <th>Зарегистрирован</th>
                     <th>Получил карт</th>
                     <th>Управление</th>
@@ -19,8 +20,10 @@
                 @foreach ( $chats as $chat )
                     <tr id="chat-{{ $chat->id }}">
                         <td>{{ $chat->telegram_firstname }} {{ $chat->telegram_lastname }}</td>
+                        <td>@if ( $chat->telegram_username)<a href="https://t.me/{{$chat->telegram_username}}" target="_blank">&commat;{{$chat->telegram_username}}</a>
+                            @else<a href="https://t.me/{{$chat->telegram_id}}" target="_blank">&commat;{{$chat->telegram_id}}</a>@endif</td>
                         <td>{{ $chat->created_at }}</td>
-                        <td>@if ( isset($chat->cardrequest) ) {{ $chat->cardrequest->count() }} @else 0 @endif</td>
+                        <td>{{ $chat->cards_requested }}</td>
                         <td>
                             <a href="#" class="delete-chat" data-id="{{ $chat->id }}"><span class="badge bg-danger text-dark">Удалить</span></a>
                         </td>

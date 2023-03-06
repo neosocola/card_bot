@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Botman;
 
 use BotMan\BotMan\BotMan;
 use App\Http\Controllers\Controller;
-use App\Conversations\MenuConversation;
 use App\Chat;
 use App\Setting;
+use App\Log;
 
 class FallbackController extends Controller
 {
@@ -22,7 +22,11 @@ class FallbackController extends Controller
     {
         $text = Setting::first()->value('fallback');
         $bot->reply($text);
-        $bot->startConversation(new MenuConversation());
+        $chat_id = Chat::where('telegram_id', $bot->getUser()->getId())->value('id');
+        Log::create([
+            'chat_id' => $chat_id,
+            'action' => 'fallback'
+        ]);
         exit;
     }
 }

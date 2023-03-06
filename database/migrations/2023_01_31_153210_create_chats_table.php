@@ -15,9 +15,11 @@ class CreateChatsTable extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->increments('id');
-            $table->bigInteger('telegram_id')->unique();
-            $table->string('telegram_firstname');
-            $table->string('telegram_lastname');
+            $table->unsignedBigInteger('telegram_id')->unique();
+            $table->string('telegram_firstname')->nullable();
+            $table->string('telegram_lastname')->nullable();
+            $table->string('telegram_username')->nullable();
+            $table->unsignedInteger('card_requested')->nullable();
             $table->timestamps();
         });
     }

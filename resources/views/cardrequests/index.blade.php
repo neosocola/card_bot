@@ -19,9 +19,7 @@
                     <tr>
                         <td>{{ $req->chat->telegram_firstname }} {{ $req->chat->telegram_lastname }}</td>
                         <td><img src="/files/images/{{ $req->card->filename }}" style="max-width: 100px"/></td>
-                        <td>
-                            {{ $req->created_at }}</a>
-                        </td>
+                        <td>{{ $req->created_at }}</td>
                     </tr>
                 @endforeach
                 </tbody>

@@ -22,6 +22,10 @@
             <label class="form-label" for="fallback">Ответ пользователю на неизвестную команду</label>
             <textarea class="form-control{{ $errors->has('fallback') ? ' is-invalid' : '' }}" name="fallback" rows="10">@if ( old('fallback') ){{ old('fallback') }}@else{{ $settings->fallback }}@endif</textarea>
         </div>
+        <div class="mb-3">
+            <label class="form-label" for="description">Текст при выдаче карты, если у неё нет собственного описания</label>
+            <textarea class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" rows="10">@if ( old('description') ){{ old('description') }}@else{{ $settings->description }}@endif</textarea>
+        </div>
         <input class="btn btn-primary btn-lg" type='submit' value='Редактировать'>
     </form>
 @endsection
