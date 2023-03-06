@@ -1,22 +1,23 @@
 <?php
-use App\Http\Controllers\BotManController;
-use App\Http\Controllers\BotMan\StartController;
-use App\Http\Controllers\BotMan\CardController;
-use App\Http\Controllers\BotMan\CommandController;
-use App\Http\Controllers\BotMan\FallbackController;
+
 use App\Http\Middleware\Botman\IsAuth;
 
 $botman = resolve('botman');
 
-$botman->hears('/start', StartController::class.'@start');
-
-$botman->group(['middleware' => new IsAuth()], function ($botman) {
-    $botman->hears('/card', CardController::class.'@card');
+$botman->hears('/start', function ($bot) {
+    return app('App\Http\Controllers\Botman\StartController')->start($bot);
 });
 
-$botman->hears('/([a-z]+)', CommandController::class.'@command');
+$botman->group(['middleware' => new IsAuth()], function ($botman) {
+    $botman->hears('/card', function ($bot) {
+        return app('App\Http\Controllers\Botman\CardController')->card($bot);
+    });
+});
+
+$botman->hears('/([a-z]+)', function ($bot, $command) {
+    return app('App\Http\Controllers\Botman\CommandController')->command($bot, $command);
+});
 
 $botman->fallback(function ($bot) {
-    //$bot->reply('Hello!');
     return app('App\Http\Controllers\Botman\FallbackController')->fallback($bot);
 });
